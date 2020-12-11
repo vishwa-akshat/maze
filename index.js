@@ -12,7 +12,7 @@ const render = Render.create({
   element: document.body,
   engine: engine,
   options: {
-    wireframes: true,
+    wireframes: false,
     width,
     height
   }
@@ -113,7 +113,7 @@ const stepThroughCell = (row, column) => {
   // Visit that next cell
 };
 
-stepThroughCell(1, 1);
+stepThroughCell(startRow, startColumn);
 
 horizontals.forEach( ( row, rowIndex ) => {
     row.forEach( (open, columnIndex) => {
@@ -123,6 +123,30 @@ horizontals.forEach( ( row, rowIndex ) => {
         const wall = Bodies.rectangle(
             columnIndex * unitLength + unitLength /2,
             rowIndex * unitLength + unitLength,
+            unitLength,
+            10,{
+                isStatic:true
+            }
         );
+        World.add(world, wall);
+    });
+});
+
+verticals.forEach((row, rowIndex) => {
+    row.forEach((open, columnIndex) => {
+        if(open){
+            return;
+        }
+
+        const wall = Bodies.rectangle(
+            columnIndex * unitLength + unitLength,
+            rowIndex * unitLength + unitLength/2,
+            10,
+            unitLength,
+            {
+                isStatic:true
+            }
+        );
+        World.add(world, wall);
     });
 });
